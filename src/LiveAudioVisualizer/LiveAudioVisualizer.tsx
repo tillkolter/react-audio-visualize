@@ -5,7 +5,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { calculateBarData, draw } from "./utils";
+import {calculateBarData, draw} from "./utils";
 
 export interface Props {
   /**
@@ -74,6 +74,7 @@ export interface Props {
    * Default: `0.4`
    */
   smoothingTimeConstant?: number;
+  sampleRate?: number;
 }
 
 const LiveAudioVisualizer: (props: Props) => ReactElement = ({
@@ -88,6 +89,7 @@ const LiveAudioVisualizer: (props: Props) => ReactElement = ({
   maxDecibels = -10,
   minDecibels = -90,
   smoothingTimeConstant = 0.4,
+  sampleRate = 44100,
 }: Props) => {
   const [context, setContext] = useState<AudioContext>();
   const [audioSource, setAudioSource] = useState<MediaStreamAudioSourceNode>();
@@ -97,7 +99,7 @@ const LiveAudioVisualizer: (props: Props) => ReactElement = ({
   useEffect(() => {
     if (!mediaRecorder.stream) return;
 
-    const ctx = new AudioContext();
+    const ctx = new AudioContext({sampleRate});
     const analyserNode = ctx.createAnalyser();
     setAnalyser(analyserNode);
     analyserNode.fftSize = fftSize;
@@ -182,4 +184,4 @@ const LiveAudioVisualizer: (props: Props) => ReactElement = ({
   );
 };
 
-export { LiveAudioVisualizer };
+export {LiveAudioVisualizer};
