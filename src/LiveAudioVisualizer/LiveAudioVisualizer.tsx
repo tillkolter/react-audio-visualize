@@ -95,6 +95,7 @@ const LiveAudioVisualizer: (props: Props) => ReactElement = ({
   const [audioSource, setAudioSource] = useState<MediaStreamAudioSourceNode>();
   const [analyser, setAnalyser] = useState<AnalyserNode>();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const dpr = window.devicePixelRatio || 1;
 
   useEffect(() => {
     if (!mediaRecorder.stream) return;
@@ -158,7 +159,7 @@ const LiveAudioVisualizer: (props: Props) => ReactElement = ({
 
     const dataPoints = calculateBarData(
       data,
-      canvasRef.current.width,
+      canvasRef.current.width * dpr,
       barWidth,
       gap
     );
